@@ -1,11 +1,15 @@
-#ifndef MCP4716_H
-#define MCP4716_H
+#pragma once
 
 /**
  * @brief Module for handling the MCP4716 I²C communication
  */
 class MCP4716 {
 public:
+
+	/**
+	 * Variant number is taken from MCP4716A0 to MCP4716A7 giving 0 to 7
+	 */
+	MCP4716(unsigned char variant) : _i2cAddr(0x60 + variant) {}
 
 	enum VRefBits {
 		VREF_VDD, VREF_PIN_UNBUFFERED = 2, VREF_PIN_BUFFERED = 3
@@ -25,7 +29,5 @@ public:
 	void SetNonVolatile(VRefBits vref, PowerDownBits pd, bool gain2x, unsigned int value);
 
 private:
-	static constexpr unsigned char i2cAddr = 0x62;  // A2 variant
+	unsigned char _i2cAddr;
 };
-
-#endif
